@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     styleSheet = ui->downloadProgress->styleSheet();
     downloader = std::make_unique<Downloader>();
     ui->stackedWidgetDownloader->setCurrentIndex(0);
+    MainWindow::connect(downloader.get(), &Downloader::downloadFinished, this, &MainWindow::on_downloadFinished);
 }
 
 MainWindow::~MainWindow()
@@ -24,10 +25,6 @@ void MainWindow::on_downloadButton_clicked()
     const std::string url = ui->downloadLink->text().toStdString();
     showDownloadStarted();
     bool downloadSuccess = downloader->downloadVideo(testUrl/*QString::fromStdString(url)*/);
-    if(downloadSuccess)
-    {
-        showSuccess();
-    }
 }
 
 void MainWindow::showSuccess()
@@ -53,5 +50,10 @@ void MainWindow::resetView()
 void MainWindow::on_openVideoButton_clicked()
 {
     resetView();
+}
+
+void MainWindow::on_downloadFinished()
+{
+    showSuccess();
 }
 

@@ -1,10 +1,16 @@
 #include "downloader.h"
 #include <filesystem>
 #include <ShlObj.h>
+#include <thread>
 
 Downloader::Downloader()
 {
 
+}
+
+void Downloader::runDownloadScript(const std::string downloadCommand)
+{
+    std::system(downloadCommand.c_str());
 }
 
 bool Downloader::downloadVideo(const QString &url)
@@ -12,7 +18,12 @@ bool Downloader::downloadVideo(const QString &url)
     const std::filesystem::path downloadPath = getDownloadsFolderPath();
     const std::filesystem::path downloadScript = std::filesystem::current_path().parent_path().parent_path() / "src" /"PyTube" / "DownloadVideo.py";
     const std::string downloadCommand = "python " + downloadScript.string() + " " + downloadPath.string() + " " + url.toStdString();
-    std::system(downloadCommand.c_str());
+    std::thread backgroundThread([this, downloadCommand]() {
+        runDownloadScript(downloadCommand);
+        emit downloadFinished();
+    });
+    backgroundThread.detach();
+
 
     return true; //TODO Error Handling
 }

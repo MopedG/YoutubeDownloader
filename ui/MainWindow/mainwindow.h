@@ -17,8 +17,8 @@ public:
 
 private slots:
     void on_downloadButton_clicked();
-
     void on_openVideoButton_clicked();
+    void on_downloadFinished();
 
 private:
     Ui::MainWindow *ui;
