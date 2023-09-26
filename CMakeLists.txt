@@ -14,7 +14,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
-        ui/mainwindow.cpp
+        ui/MainWindow/mainwindow.cpp
         src/Downloader/downloader.cpp
 )
 

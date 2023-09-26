@@ -18,8 +18,15 @@ public:
 private slots:
     void on_downloadButton_clicked();
 
+    void on_openVideoButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 
     std::unique_ptr<Downloader> downloader;
+    QString styleSheet;
+
+    void showSuccess();
+    void showDownloadStarted();
+    void resetView();
 };
